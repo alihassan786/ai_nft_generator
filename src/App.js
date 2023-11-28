@@ -20,15 +20,28 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false);
 
   const loadBlockchainData = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    setProvider(provider);
-    const network = await provider.getNetwork();
-    const nft = new ethers.Contract(
-      "0xbB45f9a922D91CEB619e7A119ABE197AAa840558",
-      NFT,
-      provider
-    );
-    setNFT(nft);
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(provider);
+
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await provider.listAccounts();
+        setAccount(accounts[0]);
+
+        const network = await provider.getNetwork();
+        const nft = new ethers.Contract(
+          "0xbB45f9a922D91CEB619e7A119ABE197AAa840558",
+          NFT,
+          provider
+        );
+        setNFT(nft);
+      } catch (error) {
+        console.error("Error connecting to MetaMask:", error);
+      }
+    } else {
+      console.error("MetaMask not detected");
+    }
   };
 
   const createImage = async () => {
