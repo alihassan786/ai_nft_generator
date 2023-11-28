@@ -10,6 +10,7 @@ const Navigation = ({ account, setAccount }) => {
   };
 
   //new comment
+  //another comment
   return (
     <nav>
       <div className="nav__brand">

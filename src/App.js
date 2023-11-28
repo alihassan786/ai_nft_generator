@@ -98,6 +98,7 @@ function App() {
               symbol: tokenSymbol,
               decimals: tokenDecimals,
               image: tokenImage,
+              tokenId: tokenId.toString(),
             },
           },
         });
